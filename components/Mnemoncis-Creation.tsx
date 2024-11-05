@@ -2,11 +2,29 @@
 
 import React, { useCallback, useEffect, useState } from 'react'
 import { generateMnemonic } from "bip39";
-import Button from './ui/Button';
+import { Button } from './ui/Button';
 
-const GenerateMnemonics = () => {
+interface GenerateMnemonicsProps {
+  confirmed: boolean;
+  setConfirmed: (value: boolean) => void;
+}
+
+const GenerateMnemonics = ({
+  confirmed,
+  setConfirmed
+} : GenerateMnemonicsProps) => {
   const [mnemonic, setMnemonic] = useState<string[]>([]);
   const [isChecked , setIsChecked] = useState(false);
+  const [isCopied, setIsCopied] = useState(false);
+
+
+  const handleCopy = () =>{
+    navigator.clipboard.writeText(mnemonic.join(" "));
+    setIsCopied(true);
+    setTimeout(() => {
+      setIsCopied(false);
+    }, 2000);
+  }
 
 
   const handleCheckboxChange = useCallback((e : any) => {
@@ -25,11 +43,12 @@ const GenerateMnemonics = () => {
  
 
   return (
-    <div className='flex flex-col min-h-screen  text-center items-center p-4'>
+    <div className='flex flex-col justify-center min-h-screen  text-center items-center p-4'>
       <h2 className='text-white font-semibold text-4xl mt-4'>Secret Recovery phase</h2>
       <p className="text-gray-300 mt-4 ">Save this words somewhere or you are cooked!</p>
       
-      <div className='bg-zinc-800 rounded-lg p-6 max-w-screen-md mt-10 w-full '>
+      <div className='bg-zinc-800 rounded-lg p-6 max-w-screen-md mt-10 w-full '
+          onClick={handleCopy}>
         <div className='grid grid-cols-3 gap-5 space-x-4 text-center text-lg'>
           {mnemonic.map((word, index) => (
               <div key={index} className="flex items-center justify-center space-x-1 px-5">
@@ -38,9 +57,12 @@ const GenerateMnemonics = () => {
               </div>
             ))}
         </div>
-        <p className='text-gray-300 mt-5 border-t border-gray-600 text-center gap-2'>
-          Click anywhere to copy
-        </p>
+        <div>
+          <p className='text-gray-300 mt-5 border-t border-gray-600 text-center gap-2'>
+            Click anywhere on this card to copy
+          </p>
+        </div>
+       
       </div>
 
       <span className='p-2 text-white text-lg'>
@@ -49,13 +71,11 @@ const GenerateMnemonics = () => {
         I have saved my recovery phase
       </span>
       
-      <div className='mt-5 space-y-2'>
-       <Button 
-       label='Create wallet'
-       disabled= {!isChecked} /> 
+      <div className='mt-5 space-y-2 space-x-3'>
+       <Button className='bg-white text-black hover:bg-gray-500'>Create Wallet
+        </Button> 
 
-       <Button 
-        label='Import wallet'/>
+       <Button className='bg-white text-black hover:bg-gray-500'>Import Wallet</Button>
 
         
       </div>
