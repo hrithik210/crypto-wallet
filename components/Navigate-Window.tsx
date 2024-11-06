@@ -5,6 +5,7 @@ import { Button } from "./ui/Button"
 import { useState } from "react"
 import StartingComponent from "./Starting-Component"
 import GenerateMnemonics from "./Mnemoncis-Creation";
+import SelectNetwork from "./SelectNetwork";
 
 // Step-specific components
 const WarningStep = () => (
@@ -30,12 +31,13 @@ const VerifyStep = () => (
 )
 const NavigateWindow = () => {
   const [currentStep, setCurrentStep] = useState(0)
-  const [confirmed, setConfirmed] = useState(false)
+
 
   const steps = [
     { title: "Home", component: <StartingComponent /> },
     { title: "Warning", component: <WarningStep /> },
-    { title: "Secret Recovery Phrase", component: <GenerateMnemonics confirmed={confirmed} setConfirmed={setConfirmed} /> },
+    {title : "Select Network", component: <SelectNetwork />},
+    { title: "Secret Recovery Phrase", component: <GenerateMnemonics /> },
     { title: "Verify", component: <VerifyStep /> },
   ]
 
@@ -63,7 +65,7 @@ const NavigateWindow = () => {
           </div>
           <Button
               onClick={() => setCurrentStep((prev) => Math.min(steps.length - 1, prev + 1))}
-              disabled={currentStep === steps.length - 1 || (currentStep === 2 && !confirmed)}
+              
             >
               Next
               <ChevronRight className="ml-2 h-4 w-4" />

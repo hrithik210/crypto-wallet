@@ -3,16 +3,15 @@
 import React, { useCallback, useEffect, useState } from 'react'
 import { generateMnemonic } from "bip39";
 import { Button } from './ui/Button';
+import { toast } from 'sonner';
+import { Copy } from 'lucide-react';
 
 interface GenerateMnemonicsProps {
   confirmed: boolean;
   setConfirmed: (value: boolean) => void;
 }
 
-const GenerateMnemonics = ({
-  confirmed,
-  setConfirmed
-} : GenerateMnemonicsProps) => {
+const GenerateMnemonics = () => {
   const [mnemonic, setMnemonic] = useState<string[]>([]);
   const [isChecked , setIsChecked] = useState(false);
   const [isCopied, setIsCopied] = useState(false);
@@ -24,6 +23,7 @@ const GenerateMnemonics = ({
     setTimeout(() => {
       setIsCopied(false);
     }, 2000);
+    toast.success("Copied to clipboard");
   }
 
 
@@ -58,9 +58,13 @@ const GenerateMnemonics = ({
             ))}
         </div>
         <div>
-          <p className='text-gray-300 mt-5 border-t border-gray-600 text-center gap-2'>
-            Click anywhere on this card to copy
-          </p>
+          <span className='flex justify-between items-center text-center'>
+            <p className='text-gray-300 mt-5 border-t border-gray-600 text-center gap-2'>
+              Click anywhere on this card to copy
+            </p>
+            <Copy/>
+          </span>
+         
         </div>
        
       </div>
@@ -72,10 +76,9 @@ const GenerateMnemonics = ({
       </span>
       
       <div className='mt-5 space-y-2 space-x-3'>
-       <Button className='bg-white text-black hover:bg-gray-500'>Create Wallet
+       <Button className='bg-white text-black hover:bg-gray-500 px-5'
+       disabled={!isChecked}>Create Wallet
         </Button> 
-
-       <Button className='bg-white text-black hover:bg-gray-500'>Import Wallet</Button>
 
         
       </div>
