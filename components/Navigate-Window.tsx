@@ -7,8 +7,8 @@ import StartingComponent from "./Starting-Component"
 import GenerateMnemonics from "./Mnemoncis-Creation";
 import SelectNetwork from "./SelectNetwork";
 import { useWallet } from "@/app/context/WalletContext";
-import { SolanaWallet } from "./SolanaWallet";
 import { EthWallet } from "./EthWallet";
+import SolanaWallet from "./SolanaWallet";
 
 const WarningStep = () => (
   <div className="space-y-4 text-center mb-5">

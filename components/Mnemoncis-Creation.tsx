@@ -58,7 +58,6 @@ const GenerateMnemonics = ({ onCreateWallet }: GenerateMnemonicsProps) => {
             >
               <div className="absolute inset-0 bg-purple-500/20 rounded-lg blur-sm group-hover:bg-purple-500/30 transition-all duration-300"></div>
               <div className="relative bg-zinc-800 rounded-lg p-3 shadow-lg hover:shadow-xl transition-all duration-300 flex items-center justify-between border border-zinc-700/50">
-                <span className="text-gray-400 text-sm">{index + 1}.</span>
                 <span className="font-medium text-white">{word}</span>
               </div>
             </div>
