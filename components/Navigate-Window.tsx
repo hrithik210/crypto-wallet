@@ -6,6 +6,9 @@ import { useState } from "react"
 import StartingComponent from "./Starting-Component"
 import GenerateMnemonics from "./Mnemoncis-Creation";
 import SelectNetwork from "./SelectNetwork";
+import { useWallet } from "@/app/context/WalletContext";
+import { SolanaWallet } from "./SolanaWallet";
+import { EthWallet } from "./EthWallet";
 
 // Step-specific components
 const WarningStep = () => (
@@ -20,26 +23,24 @@ const WarningStep = () => (
   </div>
 )
 
-
-
-const VerifyStep = () => (
-  <div className="space-y-4 text-center">
-    <h2 className="text-2xl font-bold">Verify Recovery Phrase</h2>
-    <p className="text-muted-foreground">Please verify your recovery phrase.</p>
-    {/* Add verification input fields here */}
-  </div>
-)
 const NavigateWindow = () => {
   const [currentStep, setCurrentStep] = useState(0)
+  const {mnemonic} = useWallet();
+  const {network}  = useWallet();
+
+  const handleSelectNetwork = () => {
+    setCurrentStep(4);
+  }
 
 
   const steps = [
     { title: "Home", component: <StartingComponent /> },
     { title: "Warning", component: <WarningStep /> },
-    {title : "Select Network", component: <SelectNetwork />},
+    {title : "Select Network", component: <SelectNetwork handleSelectNetwork={handleSelectNetwork}/>},
     { title: "Secret Recovery Phrase", component: <GenerateMnemonics /> },
-    { title: "Verify", component: <VerifyStep /> },
+    { title: "Show Wallet", component: network === "Solana" ? <SolanaWallet mnemonic={mnemonic}  />: <EthWallet /> }
   ]
+
 
   return (
     <div className="flex justify-center flex-col h-screen items-center text-white p-6 ">

@@ -1,4 +1,3 @@
-import GenerateMnemonics from "@/components/Mnemoncis-Creation";
 import NavigateWindow from "@/components/Navigate-Window";
 
 

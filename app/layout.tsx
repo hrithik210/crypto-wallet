@@ -4,6 +4,7 @@ import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
 import { Toaster } from "sonner";
+import { WalletProvider } from "./context/WalletContext";
 
 
 const geistSans = localFont({
@@ -32,7 +33,9 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased bg-[#111213] `}
       >
-        <main>{children}</main>
+        <WalletProvider>
+          {children}
+        </WalletProvider>
         <Toaster />
       </body>
     </html>
