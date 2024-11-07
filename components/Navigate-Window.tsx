@@ -7,8 +7,9 @@ import StartingComponent from "./Starting-Component"
 import GenerateMnemonics from "./Mnemoncis-Creation";
 import SelectNetwork from "./SelectNetwork";
 import { useWallet } from "@/app/context/WalletContext";
-import { EthWallet } from "./EthWallet";
+
 import SolanaWallet from "./SolanaWallet";
+import EthWallet from "./EthWallet";
 
 const WarningStep = () => (
   <div className="space-y-4 text-center mb-5">
@@ -35,9 +36,9 @@ const NavigateWindow = () => {
   }
 
   const steps = [
-    { title: "Home", component: <StartingComponent /> },
-    { title: "Warning", component: <WarningStep /> },
+    { title: "Home", component: <StartingComponent onClick={() => setCurrentStep(1)} /> },
     { title: "Select Network", component: <SelectNetwork handleSelectNetwork={handleSelectNetwork}/> },
+    { title: "Warning", component: <WarningStep /> },
     { title: "Secret Recovery Phrase", component: <GenerateMnemonics onCreateWallet={handleCreateWallet} /> },
     { title: "Show Wallet", component: network === "Solana" ? <SolanaWallet mnemonic={mnemonic} /> : <EthWallet /> }
   ]
