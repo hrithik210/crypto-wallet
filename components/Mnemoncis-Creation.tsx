@@ -47,7 +47,7 @@ const GenerateMnemonics = ({ onCreateWallet }: GenerateMnemonicsProps) => {
   return (
     <div className='flex flex-col justify-center min-h-screen text-center items-center p-4 max-w-4xl mx-auto bottom-0 '>
       <h2 className='text-white font-semibold text-4xl mb-4'>Secret Recovery Phrase</h2>
-      <p className="text-gray-300 mb-8">Save these words somewhere safe, or you're cooked!</p>
+      <p className="text-gray-300 mb-8">Save these words somewhere safe, or you are cooked!</p>
       
       <div className='bg-zinc-900/50 backdrop-blur-sm rounded-xl p-8 w-full shadow-2xl border border-zinc-800/50'>
         <div className='grid grid-cols-3 gap-4 mb-6'>
