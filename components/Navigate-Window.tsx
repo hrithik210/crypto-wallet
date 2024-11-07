@@ -10,7 +10,6 @@ import { useWallet } from "@/app/context/WalletContext";
 import { SolanaWallet } from "./SolanaWallet";
 import { EthWallet } from "./EthWallet";
 
-// Step-specific components
 const WarningStep = () => (
   <div className="space-y-4 text-center mb-5">
     <h2 className="text-2xl font-bold">Important Warning</h2>
@@ -25,53 +24,56 @@ const WarningStep = () => (
 
 const NavigateWindow = () => {
   const [currentStep, setCurrentStep] = useState(0)
-  const {mnemonic} = useWallet();
-  const {network}  = useWallet();
+  const { mnemonic, network } = useWallet();
 
   const handleSelectNetwork = () => {
-    setCurrentStep(4);
+    setCurrentStep(3);
   }
 
+  const handleCreateWallet = () => {
+    setCurrentStep(4);
+  }
 
   const steps = [
     { title: "Home", component: <StartingComponent /> },
     { title: "Warning", component: <WarningStep /> },
-    {title : "Select Network", component: <SelectNetwork handleSelectNetwork={handleSelectNetwork}/>},
-    { title: "Secret Recovery Phrase", component: <GenerateMnemonics /> },
-    { title: "Show Wallet", component: network === "Solana" ? <SolanaWallet mnemonic={mnemonic}  />: <EthWallet /> }
+    { title: "Select Network", component: <SelectNetwork handleSelectNetwork={handleSelectNetwork}/> },
+    { title: "Secret Recovery Phrase", component: <GenerateMnemonics onCreateWallet={handleCreateWallet} /> },
+    { title: "Show Wallet", component: network === "Solana" ? <SolanaWallet mnemonic={mnemonic} /> : <EthWallet /> }
   ]
 
+  const canGoNext = currentStep < steps.length - 1 && currentStep !== 2 && currentStep !== 3;
 
   return (
-    <div className="flex justify-center flex-col h-screen items-center text-white p-6 ">
-      
-        {steps[currentStep].component}
-        <div className="flex justify-center items-center">
-          <Button
-            onClick={() => setCurrentStep((prev) => Math.max(0, prev - 1))}
-            disabled={currentStep === 0}
-          >
-            <ChevronLeft className="mr-2 h-4 w-4" />
-            Back
-          </Button>
-          <div className="flex gap-2">
-            {steps.map((_, index) => (
-              <div
-                key={index}
-                className={`h-2 w-2 rounded-full transition-colors ${
-                  index === currentStep ? "bg-primary" : "bg-muted"
-                }`}
-              />
-            ))}
-          </div>
-          <Button
-              onClick={() => setCurrentStep((prev) => Math.min(steps.length - 1, prev + 1))}
-              
-            >
-              Next
-              <ChevronRight className="ml-2 h-4 w-4" />
-            </Button>
+    <div className="flex justify-center flex-col h-screen items-center text-white p-6">
+      {steps[currentStep].component}
+      <div className="flex justify-center items-center mt-6">
+        <Button
+          onClick={() => setCurrentStep((prev) => Math.max(0, prev - 1))}
+          disabled={currentStep === 0}
+        >
+          <ChevronLeft className="mr-2 h-4 w-4" />
+          Back
+        </Button>
+        <div className="flex gap-2 mx-4">
+          {steps.map((_, index) => (
+            <div
+              key={index}
+              className={`h-2 w-2 rounded-full transition-colors ${
+                index === currentStep ? "bg-primary" : "bg-muted"
+              }`}
+            />
+          ))}
         </div>
+        {canGoNext && (
+          <Button
+            onClick={() => setCurrentStep((prev) => Math.min(steps.length - 1, prev + 1))}
+          >
+            Next
+            <ChevronRight className="ml-2 h-4 w-4" />
+          </Button>
+        )}
+      </div>
     </div>
   )
 }
